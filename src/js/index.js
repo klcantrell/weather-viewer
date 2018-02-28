@@ -1,6 +1,10 @@
-window.addEventListener("load", getLocation);
-window.addEventListener("load", loadSpin);
-var unit = document.getElementById("unit");
+window.addEventListener("DOMContentLoaded", function() {
+  getLocation();
+  loadSpin();
+});
+
+var rootEl = document.getElementById("weather-viewer");
+var unit = rootEl.querySelector(".js_weather-viewer__unit");
 unit.addEventListener("click", changeUnit);
 unit.addEventListener("touchstart", buttonTouchStart);
 unit.addEventListener("touchend", buttonTouchEnd);
@@ -8,7 +12,7 @@ unit.addEventListener("mouseover", buttonMouseOver);
 unit.addEventListener("mousedown", buttonMouseDown);
 unit.addEventListener("mouseleave", buttonMouseLeave);
 unit.addEventListener("mouseup", buttonMouseUp);
-var refreshIcon = document.getElementById("refreshIcon");
+var refreshIcon = rootEl.querySelector(".js_weather-viewer__refresh-icon");
 refreshIcon.addEventListener("click", reload);
 refreshIcon.addEventListener("click", refreshSpin);
 refreshIcon.addEventListener("touchstart", buttonTouchStart);
@@ -25,9 +29,12 @@ var degreesFahrenheit;
 var degreesCelsius;
 var currentDate = new Date();
 var currentHour = currentDate.getHours();
-var key = document.getElementById("key");
-var outerCircle = document.getElementById("outerCircle");
-var pic = document.getElementById("pic");
+var key = rootEl.querySelector(".js_weather-viewer__key");
+var pic = rootEl.querySelector(".js_weather-viewer__pic");
+var splash = rootEl.querySelector(".js_weather-viewer__splash");
+var temperature = rootEl.querySelector(".weather-viewer__temperature");
+var summary = rootEl.querySelector(".weather-viewer__summary");
+var number = rootEl.querySelector(".weather-viewer__number");
 var locOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
@@ -49,7 +56,7 @@ function reload() {
   location.reload(true);
 }
 
-function loadSpin(e) {
+function loadSpin() {
   refreshIcon.style["animation-name"] = "spin";
   refreshIcon.style["animation-duration"] = "4000ms";
   refreshIcon.style["animation-iteration-count"] = "1";
@@ -64,29 +71,29 @@ function refreshSpin(e) {
 }
 
 function removeSplash() {
-  document.getElementById("splash").style.opacity = "0";
-  document.getElementById("splash").style.visibility = "hidden";
-  document.getElementById("key").style.opacity = .25;
+  splash.style.opacity = "0";
+  splash.style.visibility = "hidden";
+  key.style.opacity = .25;
 }
 
-function timeout() {
+function timeout(e) {
   removeSplash();
-  document.getElementById("unit").style.visibility = "hidden";
+  console.log(e);
+  unit.style.visibility = "hidden";
   setTimeout(addTimeoutView, 1400);
 }
 
 function addTimeoutView() {
-  var temperature = document.getElementById("temperature");
   var timeoutMessage = document.createElement("P");
   timeoutMessage.innerHTML = "Please enable location services";
-  timeoutMessage.setAttribute("class", "timeoutMessageStyle");
+  timeoutMessage.setAttribute("class", "weather-viewer__timeout-message");
   temperature.appendChild(timeoutMessage);
   var timeoutButton = document.createElement("I");
   timeoutButton.setAttribute("class", "fa fa-refresh");
   timeoutButton.setAttribute("aria-hidden", "true");
   timeoutButton.addEventListener("click", refreshSpin);
   timeoutButton.addEventListener("click", reload);
-  timeoutButton.classList.add("timeoutButtonStyle");
+  timeoutButton.classList.add("weather-viewer__timeout-btn");
   temperature.appendChild(timeoutButton);
 }
 
@@ -99,23 +106,23 @@ function setLatLong(position) {
 
 function requestDarkSky() {
   var request = document.createElement('script');
-  request.setAttribute("src", "https://api.darksky.net/forecast/" + myKey + "/" + myLatitude 
+  request.setAttribute("src", "https://api.darksky.net/forecast/" + myKey + "/" + myLatitude
                        + ',' + myLongitude + "?callback=updateModel");
   document.head.appendChild(request);
 }
 
-function updateModel(e) {
-  degreesFahrenheit = Math.floor(e.currently.temperature);
-  degreesCelsius = Math.floor(e.currently.temperature) - 32;
-  model.summary = e.currently.summary;
-  model.icon = e.currently.icon;
-  document.getElementById("summary").innerHTML = model.summary;
+function updateModel(res) {
+  degreesFahrenheit = Math.floor(res.currently.temperature);
+  degreesCelsius = Math.floor(res.currently.temperature) - 32;
+  model.summary = res.currently.summary;
+  model.icon = res.currently.icon;
+  summary.innerHTML = model.summary;
   updateView();
 }
 
 function updateView() {
   determineValue();
-  document.getElementById("number").innerHTML = model.value;
+  number.innerHTML = model.value;
   unit.src = "https://dl.dropboxusercontent.com/s/"
 + model.unit[model.index];
   determinePic();
@@ -142,39 +149,39 @@ function determinePic() {
   switch(model.icon) {
     case ("cloudy"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/myw7l0bedfoklla/cloudy.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(158, 186, 255)";
+      rootEl.style["border-color"] = "rgb(158, 186, 255)";
       key.style.background = "rgb(158, 186, 255)";
       break;
-      
+
     case ("partly-cloudy-day"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/8o9oqgepv7msf9j/cloudysun.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(158, 186, 255)";
+      rootEl.style["border-color"] = "rgb(158, 186, 255)";
       break;
-      
+
     case ("partly-cloudy-night"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/1rxdf0ibkhm592q/cloudymoon.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(85, 101, 140)";
+      rootEl.style["border-color"] = "rgb(85, 101, 140)";
       key.style.background = "rgb(85, 101, 140)";
       break;
-      
+
     case ("rain"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/cc872macp2yuvtq/rain.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(0, 76, 255)";
+      rootEl.style["border-color"] = "rgb(0, 76, 255)";
       key.style.background = "rgb(0, 76, 255)";
       break;
-      
+
     case ("clear-day"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/nrr6lcj3ano64ny/sun.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(249, 255, 76)";
+      rootEl.style["border-color"] = "rgb(249, 255, 76)";
       key.style.background = "rgb(249, 255, 76)";
       break;
-      
+
     case ("clear-night"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/isde9hqy0dx3ixb/moon.png?dl=0");
-      outerCircle.style["border-color"] = "rgb(0, 8, 104)";
+      rootEl.style["border-color"] = "rgb(0, 8, 104)";
       key.style.background = "rgb(0, 50, 255)";
       break;
-      
+
     default: pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/tryrneq8vp0ftrg/default.png?dl=0");
   }
 }
