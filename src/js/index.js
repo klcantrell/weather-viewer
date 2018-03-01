@@ -3,43 +3,35 @@ window.addEventListener("DOMContentLoaded", function() {
   loadSpin();
 });
 
-var rootEl = document.getElementById("weather-viewer");
-var unit = rootEl.querySelector(".js_weather-viewer__unit");
-unit.addEventListener("click", changeUnit);
-unit.addEventListener("touchstart", buttonTouchStart);
-unit.addEventListener("touchend", buttonTouchEnd);
-unit.addEventListener("mouseover", buttonMouseOver);
-unit.addEventListener("mousedown", buttonMouseDown);
-unit.addEventListener("mouseleave", buttonMouseLeave);
-unit.addEventListener("mouseup", buttonMouseUp);
-var refreshIcon = rootEl.querySelector(".js_weather-viewer__refresh-icon");
-refreshIcon.addEventListener("click", reload);
-refreshIcon.addEventListener("click", refreshSpin);
-refreshIcon.addEventListener("touchstart", buttonTouchStart);
-refreshIcon.addEventListener("touchend", buttonTouchEnd);
-refreshIcon.addEventListener("mouseover", buttonMouseOver);
-refreshIcon.addEventListener("mousedown", buttonMouseDown);
-refreshIcon.addEventListener("mouseleave", buttonMouseLeave);
-refreshIcon.addEventListener("mouseup", buttonMouseUp);
+var rootEl = document.getElementById("weather-viewer"),
+    unit = rootEl.querySelector(".js_weather-viewer__unit"),
+    refreshIcon = rootEl.querySelector(".js_weather-viewer__refresh-btn"),
+    key = rootEl.querySelector(".js_weather-viewer__key"),
+    pic = rootEl.querySelector(".js_weather-viewer__pic"),
+    splash = rootEl.querySelector(".js_weather-viewer__splash"),
+    temperature = rootEl.querySelector(".weather-viewer__temperature"),
+    summary = rootEl.querySelector(".weather-viewer__summary"),
+    number = rootEl.querySelector(".weather-viewer__number");
 
-var myKey = "d13867253fbc52d1aed6c28e266b43b5";
-var myLatitude;
-var myLongitude;
-var degreesFahrenheit;
-var degreesCelsius;
-var currentDate = new Date();
-var currentHour = currentDate.getHours();
-var key = rootEl.querySelector(".js_weather-viewer__key");
-var pic = rootEl.querySelector(".js_weather-viewer__pic");
-var splash = rootEl.querySelector(".js_weather-viewer__splash");
-var temperature = rootEl.querySelector(".weather-viewer__temperature");
-var summary = rootEl.querySelector(".weather-viewer__summary");
-var number = rootEl.querySelector(".weather-viewer__number");
+var currentDate = new Date(),
+    currentHour = currentDate.getHours(),
+    myKey = "d13867253fbc52d1aed6c28e266b43b5",
+    myLatitude,
+    myLongitude,
+    degreesFahrenheit,
+    degreesCelsius;
+
 var locOptions = {
   enableHighAccuracy: true,
   timeout: 5000,
   maximumAge: 0
-}
+};
+
+unit.addEventListener("click", changeUnit);
+refreshIcon.addEventListener("click", reload);
+refreshIcon.addEventListener("click", refreshSpin);
+
+
 var model = {
   index: 0,
   value: 0,
@@ -184,38 +176,4 @@ function determinePic() {
 
     default: pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/tryrneq8vp0ftrg/default.png?dl=0");
   }
-}
-
-function buttonMouseOver(e) {
-  e.target.style.cursor = "pointer";
-  e.target.style.opacity = ".5";
-}
-
-function buttonMouseDown(e) {
-  e.target.style.cursor = "pointer";
-  e.target.style.opacity = "1";
-  e.target.style.background = "rgb(105, 112, 114)";
-}
-
-function buttonTouchStart(e) {
-  e.target.style.cursor = "pointer";
-  e.target.style.opacity = "1";
-  e.target.style.background = "rgb(105, 112, 114)";
-}
-
-function buttonMouseLeave(e) {
-  e.target.style.cursor = "auto";
-  e.target.style.opacity = "1";
-  e.target.style.background = "rgb(255, 255, 255)";
-}
-
-function buttonMouseUp(e) {
-  e.target.style.cursor = "pointer";
-  e.target.style.background = "rgb(255, 255 ,255)";
-}
-
-function buttonTouchEnd(e) {
-  e.target.style.cursor = "pointer";
-  e.target.style.opacity = "1";
-  e.target.style.background = "rgb(255, 255 ,255)";
 }
