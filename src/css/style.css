@@ -179,6 +179,20 @@ body {
   width: 120%;
 }
 
+.full-spin {
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: 2;
+  animation-timing-function: linear;
+}
+
+.half-spin {
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: 0.5;
+  animation-timing-function: linear;
+}
+
 @media all and (max-width: 450px) {
   .weather-viewer__temperature, .weather-viewer__refresh-icon, .weather-viewer__summary {
   font-size: 3vmax;

@@ -1,6 +1,6 @@
 window.addEventListener("DOMContentLoaded", function() {
   getLocation();
-  loadSpin();
+  loadSpin(refreshIcon);
 });
 
 var rootEl = document.getElementById("weather-viewer"),
@@ -28,8 +28,10 @@ var locOptions = {
 };
 
 unit.addEventListener("click", changeUnit);
-refreshIcon.addEventListener("click", reload);
-refreshIcon.addEventListener("click", refreshSpin);
+refreshIcon.addEventListener("click", function(e) {
+  reload();
+  refreshSpin(e);
+});
 
 
 var model = {
@@ -48,18 +50,12 @@ function reload() {
   location.reload(true);
 }
 
-function loadSpin() {
-  refreshIcon.style["animation-name"] = "spin";
-  refreshIcon.style["animation-duration"] = "4000ms";
-  refreshIcon.style["animation-iteration-count"] = "1";
-  refreshIcon.style["animation-timing-function"] = "linear";
+function loadSpin(el) {
+  el.classList.add('full-spin');
 }
 
-function refreshSpin(e) {
-  e.target.style["animation-name"] = "spin";
-  e.target.style["animation-duration"] = "4000ms";
-  e.target.style["animation-iteration-count"] = ".5";
-  e.target.style["animation-timing-function"] = "linear";
+function refreshSpin(event) {
+  event.target.classList.add('half-spin');
 }
 
 function removeSplash() {
