@@ -93,18 +93,19 @@ function setLatLong(position) {
   setTimeout(removeSplash, 2000);
 }
 
+//WILL ONLY WORK WITH PROXY SERVER
 function requestDarkSky() {
-  var request = document.createElement('script');
-  request.setAttribute("src", "https://api.darksky.net/forecast/" + myKey + "/" + myLatitude
-                       + ',' + myLongitude + "?callback=updateModel");
-  document.head.appendChild(request);
+  axios.get('https://c0vyp06yng.execute-api.us-east-2.amazonaws.com/withstrictcors/dark-sky')
+    .then((res) => {
+      updateModel(res.data);
+    });
 }
 
-function updateModel(res) {
-  degreesFahrenheit = Math.floor(res.currently.temperature);
-  degreesCelsius = Math.floor(res.currently.temperature) - 32;
-  model.summary = res.currently.summary;
-  model.icon = res.currently.icon;
+function updateModel(data) {
+  degreesFahrenheit = Math.floor(data.currently.temperature);
+  degreesCelsius = Math.floor(data.currently.temperature) - 32;
+  model.summary = data.currently.summary;
+  model.icon = data.currently.icon;
   summary.innerHTML = model.summary;
   updateView();
 }
@@ -145,6 +146,7 @@ function determinePic() {
     case ("partly-cloudy-day"):
       pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/8o9oqgepv7msf9j/cloudysun.png?dl=0");
       rootEl.style["border-color"] = "rgb(158, 186, 255)";
+      key.style.background = "rgb(158, 186, 255)";
       break;
 
     case ("partly-cloudy-night"):
