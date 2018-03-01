@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", function() {
   loadSpin(refreshIcon);
 });
 
-var rootEl = document.getElementById("weather-viewer"),
+const rootEl = document.getElementById("weather-viewer"),
     unit = rootEl.querySelector(".js_weather-viewer__unit"),
     refreshIcon = rootEl.querySelector(".js_weather-viewer__refresh-btn"),
     key = rootEl.querySelector(".js_weather-viewer__key"),
@@ -13,19 +13,19 @@ var rootEl = document.getElementById("weather-viewer"),
     summary = rootEl.querySelector(".weather-viewer__summary"),
     number = rootEl.querySelector(".weather-viewer__number");
 
-var currentDate = new Date(),
+const currentDate = new Date(),
     currentHour = currentDate.getHours(),
     myKey = "d13867253fbc52d1aed6c28e266b43b5",
-    myLatitude,
+    locOptions = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+
+let myLatitude,
     myLongitude,
     degreesFahrenheit,
     degreesCelsius;
-
-var locOptions = {
-  enableHighAccuracy: true,
-  timeout: 5000,
-  maximumAge: 0
-};
 
 unit.addEventListener("click", changeUnit);
 refreshIcon.addEventListener("click", function(e) {
@@ -59,30 +59,31 @@ function refreshSpin(event) {
 }
 
 function removeSplash() {
-  splash.style.opacity = "0";
-  splash.style.visibility = "hidden";
-  key.style.opacity = .25;
+  splash.classList.add("weather-viewer__splash--hidden");
+  key.classList.add("weather-viewier__key--fade-in");
 }
 
 function timeout(e) {
   removeSplash();
-  console.log(e);
   unit.style.visibility = "hidden";
   setTimeout(addTimeoutView, 1400);
 }
 
 function addTimeoutView() {
-  var timeoutMessage = document.createElement("P");
-  timeoutMessage.innerHTML = "Please enable location services";
-  timeoutMessage.setAttribute("class", "weather-viewer__timeout-message");
-  temperature.appendChild(timeoutMessage);
-  var timeoutButton = document.createElement("I");
-  timeoutButton.setAttribute("class", "fa fa-refresh");
-  timeoutButton.setAttribute("aria-hidden", "true");
-  timeoutButton.addEventListener("click", refreshSpin);
-  timeoutButton.addEventListener("click", reload);
-  timeoutButton.classList.add("weather-viewer__timeout-btn");
-  temperature.appendChild(timeoutButton);
+  const temperatureContent = html`
+      <p class="weather-viewer__timeout-message">
+        Please enable location services
+      </p>
+      <i class="fa fa-refresh weather-viewer__timeout-btn"
+          aria-hidden=true>
+      </i>
+  `;
+  temperature.innerHTML = temperatureContent;
+  temperature.querySelector('.weather-viewer__timeout-btn')
+    .addEventListener('click', function(e) {
+      refreshSpin(e);
+      reload();
+    });
 }
 
 function setLatLong(position) {
@@ -172,4 +173,18 @@ function determinePic() {
 
     default: pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/tryrneq8vp0ftrg/default.png?dl=0");
   }
+}
+
+function html(literals, ...customs) {
+  let result = '';
+  customs.forEach((custom, i) => {
+    let lit = literals[i];
+    if (Array.isArray(custom)) {
+      custom = custom.join('');
+    }
+    result += lit;
+    result += custom;
+  });
+  result += literals[literals.length - 1];
+  return result;
 }

@@ -58,6 +58,10 @@ body {
   animation-timing-function: linear;
 }
 
+.weather-viewier__key--fade-in {
+  opacity: .25;
+}
+
 .weather-viewer__splash {
   position: absolute;
   width: 100%;
@@ -65,7 +69,8 @@ body {
   background: white;
   border-radius: 20%;
   opacity: 1;
-  transition: 3s;
+  transition-property: opacity, visibility;
+  transition-duration: 3s;
 }
 
 .weather-viewer__splash p {
@@ -74,6 +79,11 @@ body {
   width: 80%;
   top: 18%;
   left: 11%;
+}
+
+.weather-viewer__splash--hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .weather-viewer__refresh {
