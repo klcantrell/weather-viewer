@@ -93,9 +93,8 @@ function setLatLong(position) {
   setTimeout(removeSplash, 2000);
 }
 
-//WILL ONLY WORK WITH PROXY SERVER
-function requestDarkSky() {
-  axios.get('https://c0vyp06yng.execute-api.us-east-2.amazonaws.com/withstrictcors/dark-sky')
+function requestDarkSky(lat, long) {
+  axios.get(`https://i34eo8f73h.execute-api.us-east-2.amazonaws.com/darksky/your-current-weather/${lat},${long}`)
     .then((res) => {
       updateModel(res.data);
     });
