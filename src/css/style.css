@@ -73,7 +73,8 @@ body {
 
 .weather-viewer__unit {
   border-radius: 10%;
-  width: 3vmax;
+  width: 3.2vmax;
+  height: 3.2vmax;
   margin-bottom: 4%;
   padding: 4%;
   box-shadow: .2vmax .2vmax .4vmax black;
@@ -125,6 +126,7 @@ body {
   left: 43%;
   cursor: pointer;
   width: 3.5vmax;
+  height: 3.5vmax;
 }
 
 .weather-viewer__reload-btn:hover {

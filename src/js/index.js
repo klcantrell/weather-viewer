@@ -10,9 +10,8 @@
       myLongitude: "",
       degreesFahrenheit: "",
       degreesCelsius: "",
-      index: 0,
       value: 0,
-      unit: ["p9valk7f2lq0s1x/fahrenheit.png?dl=0","q5nwt7qb5fx0snf/celsius.png?dl=0"],
+      unit: 'F',
       summary: "",
       icon: ""
     },
@@ -42,7 +41,6 @@
       return {
         value: this.data.value,
         summary: this.data.summary,
-        index: this.data.index,
         icon: this.data.icon,
         unit: this.data.unit
       }
@@ -71,8 +69,8 @@
 
     bindEvents() {
       this.unit.addEventListener("click", controller.toggleUnit.bind(controller));
-      this.reloadBtn.addEventListener("click", function(e) {
-        this.reload();
+      this.reloadBtn.addEventListener("click", () => {
+        this.pageReload();
       });
     },
 
@@ -118,8 +116,11 @@
       this.unit.classList.remove("weather-viewer__unit--hidden");
       this.summary.innerHTML = data.summary;
       this.number.innerHTML = data.value;
-      this.unit.src = "https://dl.dropboxusercontent.com/s/"
-    + data.unit[data.index];
+      if (data.unit === 'F') {
+        this.unit.querySelector('use').setAttribute('href', '#svg_fahrenheit');
+      } else {
+        this.unit.querySelector('use').setAttribute('href', '#svg_celsius');
+      }
       switch(data.icon) {
         case ("cloudy"):
           this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/myw7l0bedfoklla/cloudy.png?dl=0");
@@ -162,9 +163,11 @@
     },
 
     toggleUnit(data) {
-      this.number.innerHTML = data.value;
-      this.unit.src = "https://dl.dropboxusercontent.com/s/"
-    + data.unit[data.index];
+      if (data.unit === 'F') {
+        this.unit.querySelector('use').setAttribute('href', '#svg_fahrenheit');
+      } else {
+        this.unit.querySelector('use').setAttribute('href', '#svg_celsius');
+      }
     }
   }
 
@@ -207,7 +210,7 @@
     },
 
     determineUnit() {
-      if (this.model.data.index === 0) {
+      if (this.model.data.unit === 'F') {
         this.model.data.value = this.model.data.degreesFahrenheit;
       } else {
         this.model.data.value = this.model.data.degreesCelsius;
@@ -215,10 +218,10 @@
     },
 
     toggleUnit() {
-      if (this.model.data.index === 0) {
-        this.model.data.index += 1;
+      if (this.model.data.unit === 'F') {
+        this.model.data.unit = 'C';
       } else {
-        this.model.data.index -= 1;
+        this.model.data.unit = 'F';
       }
       this.view.toggleUnit(this.model.getWeatherData());
     }
