@@ -58,7 +58,7 @@ body {
   animation-timing-function: linear;
 }
 
-.weather-viewier__key--fade-in {
+.weather-viewer__key--fade-in {
   opacity: .25;
 }
 
@@ -138,6 +138,10 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.weather-viewer__unit--hidden {
+  visibility: hidden;
 }
 
 .weather-viewer__unit:hover {
