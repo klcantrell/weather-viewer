@@ -113,6 +113,7 @@
     },
 
     renderWeatherView(data) {
+      const iconUseEl = this.pic.querySelector('use');
       this.unit.classList.remove("weather-viewer__unit--hidden");
       this.summary.innerHTML = data.summary;
       this.number.innerHTML = data.value;
@@ -123,42 +124,42 @@
       }
       switch(data.icon) {
         case ("cloudy"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/myw7l0bedfoklla/cloudy.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_cloudy");
           this.rootEl.style["border-color"] = "rgb(158, 186, 255)";
           this.key.style.background = "rgb(158, 186, 255)";
           break;
 
         case ("partly-cloudy-day"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/8o9oqgepv7msf9j/cloudysun.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_partly-cloudy-day");
           this.rootEl.style["border-color"] = "rgb(158, 186, 255)";
           this.key.style.background = "rgb(158, 186, 255)";
           break;
 
         case ("partly-cloudy-night"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/1rxdf0ibkhm592q/cloudymoon.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_partly-cloudy-night");
           this.rootEl.style["border-color"] = "rgb(85, 101, 140)";
           this.key.style.background = "rgb(85, 101, 140)";
           break;
 
         case ("rain"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/cc872macp2yuvtq/rain.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_rain");
           this.rootEl.style["border-color"] = "rgb(0, 76, 255)";
           this.key.style.background = "rgb(0, 76, 255)";
           break;
 
         case ("clear-day"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/nrr6lcj3ano64ny/sun.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_clear-day");
           this.rootEl.style["border-color"] = "rgb(249, 255, 76)";
           this.key.style.background = "rgb(249, 255, 76)";
           break;
 
         case ("clear-night"):
-          this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/isde9hqy0dx3ixb/moon.png?dl=0");
+          iconUseEl.setAttribute("href", "#svg_clear-night");
           this.rootEl.style["border-color"] = "rgb(0, 8, 104)";
           this.key.style.background = "rgb(0, 50, 255)";
           break;
 
-        default: this.pic.setAttribute("src", "https://dl.dropboxusercontent.com/s/tryrneq8vp0ftrg/default.png?dl=0");
+        default: iconUseEl.setAttribute("href", "");
       }
     },
 
