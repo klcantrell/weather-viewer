@@ -36,7 +36,6 @@
       this.data.degreesCelsius = Math.floor(data.currently.temperature) - 32;
       this.data.summary = data.currently.summary;
       this.data.icon = data.currently.icon;
-      console.log('update firing');
     },
 
     getWeatherData() {
@@ -55,13 +54,13 @@
     init() {
       this.cacheDom();
       this.bindEvents();
-      this.fullSpinAnimation(this.refreshIcon);
+      this.fullSpinAnimation(this.reloadBtn);
     },
 
     cacheDom() {
       this.rootEl = document.getElementById("weather-viewer");
       this.unit = this.rootEl.querySelector(".js_weather-viewer__unit"),
-      this.refreshIcon = this.rootEl.querySelector(".js_weather-viewer__refresh-btn"),
+      this.reloadBtn = this.rootEl.querySelector(".js_weather-viewer__reload-btn"),
       this.key = this.rootEl.querySelector(".js_weather-viewer__key"),
       this.pic = this.rootEl.querySelector(".js_weather-viewer__pic"),
       this.splash = this.rootEl.querySelector(".js_weather-viewer__splash"),
@@ -72,7 +71,7 @@
 
     bindEvents() {
       this.unit.addEventListener("click", controller.toggleUnit.bind(controller));
-      this.refreshIcon.addEventListener("click", function(e) {
+      this.reloadBtn.addEventListener("click", function(e) {
         this.reload();
       });
     },
@@ -95,13 +94,13 @@
           <p class="weather-viewer__timeout-message">
             Please enable location services
           </p>
-          <i class="fa fa-refresh weather-viewer__timeout-btn"
+          <i class="fa fa-refresh weather-viewer__reload-btn"
               aria-hidden=true>
           </i>
       `;
       this.temperature.innerHTML = temperatureContent;
       this.temperature
-        .querySelector('.weather-viewer__timeout-btn')
+        .querySelector('.weather-viewer__reload-btn')
         .addEventListener('click', this.pageReload);
     },
 
