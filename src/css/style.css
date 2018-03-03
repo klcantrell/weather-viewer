@@ -119,12 +119,12 @@ body {
   visibility: hidden;
 }
 
-.weather-viewer__reload-btn.fa {
+.weather-viewer__reload-btn {
   position: absolute;
   bottom: 30%;
-  left: 46%;
+  left: 43%;
   cursor: pointer;
-  font-size: 2.9vmax;
+  width: 3.5vmax;
 }
 
 .weather-viewer__reload-btn:hover {
