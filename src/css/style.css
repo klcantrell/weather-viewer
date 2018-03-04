@@ -10,6 +10,8 @@ body {
   height: 90%;
   font-family: Comfortaa;
   font-size: 16px;
+  transition: background-color 2s;
+  background-color: rgb(255, 206, 190);
 }
 
 .weather-viewer {
@@ -18,7 +20,7 @@ body {
   margin: 0px auto 0px auto;
   width: 35vmax;
   height: 35vmax;
-  border: 0.6vw solid grey;
+  border: 0.6vw solid rgb(206, 118, 88);
   border-radius: 50%;
   transition-property: border-color;
   transition-duration: 4s;
@@ -49,10 +51,11 @@ body {
   display: flex;
   flex-flow: column;
   justify-content: center;
-  background: white;
+  background: rgb(255, 206, 190);
   margin: auto;
   text-align: center;
   border-radius: 50%;
+  transition: background-color 2s;
 }
 
 .weather-viewer__pic {
@@ -101,7 +104,7 @@ body {
 }
 
 .weather-viewer__splash {
-  background: white;
+  background: rgb(255, 206, 190);
   border-radius: 20%;
   opacity: 1;
   transition-property: opacity, visibility;

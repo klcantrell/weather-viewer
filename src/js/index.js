@@ -49,6 +49,37 @@
   }
 
   const view = {
+    colors: {
+      cloudy: {
+        mainColor: "rgb(158, 186, 255)",
+        backgroundColor: "rgb(207, 221, 255)"
+      },
+      partlyCloudDay: {
+        mainColor: "rgb(158, 186, 255)",
+        backgroundColor: "rgb(207, 221, 255)"
+      },
+      partlyCloudNight: {
+        mainColor: "rgb(85, 101, 140)",
+        backgroundColor: "rgb(174, 182, 202)"
+      },
+      rain: {
+        mainColor: "rgb(0, 76, 255)",
+        backgroundColor: "rgb(64, 121, 252)"
+      },
+      clearDay: {
+        mainColor: "rgb(249, 255, 76)",
+        backgroundColor: "rgb(252, 255, 173)"
+      },
+      clearNight: {
+        mainColor: "rgb(0, 50, 255)",
+        backgroundColor: "rgb(0, 8, 105)"
+      },
+      timeout: {
+        mainColor: "rgb(215, 207, 204)",
+        backgroundColor: "rgb(167, 158, 156)"
+      }
+    },
+
     init() {
       this.cacheDom();
       this.bindEvents();
@@ -57,14 +88,16 @@
 
     cacheDom() {
       this.rootEl = document.getElementById("weather-viewer");
-      this.unit = this.rootEl.querySelector(".js_weather-viewer__unit"),
-      this.reloadBtn = this.rootEl.querySelector(".js_weather-viewer__reload-btn"),
-      this.key = this.rootEl.querySelector(".js_weather-viewer__key"),
-      this.pic = this.rootEl.querySelector(".js_weather-viewer__pic"),
-      this.splash = this.rootEl.querySelector(".js_weather-viewer__splash"),
-      this.temperature = this.rootEl.querySelector(".weather-viewer__temperature"),
-      this.summary = this.rootEl.querySelector(".weather-viewer__summary"),
-      this.number = this.rootEl.querySelector(".weather-viewer__number");
+      this.unit = this.rootEl.querySelector(".js_weather-viewer__unit");
+      this.reloadBtn = this.rootEl.querySelector(".js_weather-viewer__reload-btn");
+      this.key = this.rootEl.querySelector(".js_weather-viewer__key");
+      this.pic = this.rootEl.querySelector(".js_weather-viewer__pic");
+      this.splash = this.rootEl.querySelector(".js_weather-viewer__splash");
+      this.temperature = this.rootEl.querySelector(".js_weather-viewer__temperature");
+      this.summary = this.rootEl.querySelector(".js_weather-viewer__summary");
+      this.number = this.rootEl.querySelector(".js_weather-viewer__number");
+      this.display = this.rootEl.querySelector(".js_weather-viewer__main-display")
+      this.body = document.querySelector('body');
     },
 
     bindEvents() {
@@ -113,50 +146,45 @@
     },
 
     renderWeatherView(data) {
-      const iconUseEl = this.pic.querySelector('use');
+      const iconUseEl = this.pic.querySelector('use'),
+            unitUseEl = this.unit.querySelector('use');
       this.unit.classList.remove("weather-viewer__unit--hidden");
       this.summary.innerHTML = data.summary;
       this.number.innerHTML = data.value;
       if (data.unit === 'F') {
-        this.unit.querySelector('use').setAttribute('href', '#svg_fahrenheit');
+        unitUseEl.setAttribute('href', '#svg_fahrenheit');
       } else {
-        this.unit.querySelector('use').setAttribute('href', '#svg_celsius');
+        unitUseEl.setAttribute('href', '#svg_celsius');
       }
-      switch(data.icon) {
+      switch(/*data.icon*/"cloudy") {
         case ("cloudy"):
           iconUseEl.setAttribute("href", "#svg_cloudy");
-          this.rootEl.style["border-color"] = "rgb(158, 186, 255)";
-          this.key.style.background = "rgb(158, 186, 255)";
+          this.changeColorScheme(this.colors.cloudy);
           break;
 
         case ("partly-cloudy-day"):
           iconUseEl.setAttribute("href", "#svg_partly-cloudy-day");
-          this.rootEl.style["border-color"] = "rgb(158, 186, 255)";
-          this.key.style.background = "rgb(158, 186, 255)";
+          this.changeColorScheme(this.colors.partlyCloudDay);
           break;
 
         case ("partly-cloudy-night"):
           iconUseEl.setAttribute("href", "#svg_partly-cloudy-night");
-          this.rootEl.style["border-color"] = "rgb(85, 101, 140)";
-          this.key.style.background = "rgb(85, 101, 140)";
+          this.changeColorScheme(this.colors.partlyCloudNight);
           break;
 
         case ("rain"):
           iconUseEl.setAttribute("href", "#svg_rain");
-          this.rootEl.style["border-color"] = "rgb(0, 76, 255)";
-          this.key.style.background = "rgb(0, 76, 255)";
+          this.changeColorScheme(this.colors.rain);
           break;
 
         case ("clear-day"):
           iconUseEl.setAttribute("href", "#svg_clear-day");
-          this.rootEl.style["border-color"] = "rgb(249, 255, 76)";
-          this.key.style.background = "rgb(249, 255, 76)";
+          this.changeColorScheme(this.colors.clearDay);
           break;
 
         case ("clear-night"):
           iconUseEl.setAttribute("href", "#svg_clear-night");
-          this.rootEl.style["border-color"] = "rgb(0, 8, 104)";
-          this.key.style.background = "rgb(0, 50, 255)";
+          this.changeColorScheme(this.colors.clearNight);
           break;
 
         default: iconUseEl.setAttribute("href", "");
@@ -169,6 +197,13 @@
       } else {
         this.unit.querySelector('use').setAttribute('href', '#svg_celsius');
       }
+    },
+
+    changeColorScheme(scheme) {
+      this.rootEl.style.borderColor = scheme.mainColor;
+      this.key.style.background = scheme.mainColor;
+      this.body.style.background = scheme.backgroundColor;
+      this.display.style.background = scheme.backgroundColor;
     }
   }
 
@@ -205,6 +240,7 @@
 
     ifGeolocationFails() {
       this.view.destroySplash();
+      this.view.changeColorScheme(this.view.colors.timeout);
       setTimeout(() => {
         this.view.renderTimeout();
       }, 1400);
