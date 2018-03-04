@@ -77,6 +77,10 @@
       timeout: {
         mainColor: "rgb(215, 207, 204)",
         backgroundColor: "rgb(167, 158, 156)"
+      },
+      default: {
+        mainColor: "rgb(78,205,196)",
+        backgroundColor: "rgb(162, 222, 208)"
       }
     },
 
@@ -156,7 +160,7 @@
       } else {
         unitUseEl.setAttribute('href', '#svg_celsius');
       }
-      switch(/*data.icon*/"cloudy") {
+      switch(data.icon) {
         case ("cloudy"):
           iconUseEl.setAttribute("href", "#svg_cloudy");
           this.changeColorScheme(this.colors.cloudy);
@@ -187,7 +191,10 @@
           this.changeColorScheme(this.colors.clearNight);
           break;
 
-        default: iconUseEl.setAttribute("href", "");
+        default:
+          iconUseEl.setAttribute("href", "#svg_default");
+          this.changeColorScheme(this.colors.default);
+          break;
       }
     },
 
