@@ -51,7 +51,7 @@ module.exports = {
           options: {
             name: '[name].[ext]',
             outputPath: 'fonts/',
-            // publicPath: 'https://s3.us-east-2.amazonaws.com/kals-simon-game/'
+            publicPath: 'https://s3.us-east-2.amazonaws.com/kals-weather-viewer/'
           }
         }
       }
@@ -68,7 +68,7 @@ module.exports = {
     //   test: /\.ttf$/,
     //   threshold: 10240,
     //   minRatio: 0.8,
-    //   deleteOriginalAssets: true
+    //   deleteOriginalAssets: false
     // })
   ]
 }
