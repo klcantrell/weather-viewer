@@ -1,8 +1,5 @@
-(function() {
-
-  window.addEventListener('DOMContentLoaded', function() {
-    controller.init(model, view);
-  });
+import axios from 'axios';
+import '../css/style.css';
 
   const model = {
     data: {
@@ -284,4 +281,5 @@
     result += literals[literals.length - 1];
     return result;
   }
-})();
+
+  controller.init(model, view);
