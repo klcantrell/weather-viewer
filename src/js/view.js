@@ -80,10 +80,20 @@ export default function View(controller) {
       // this.key.classList.add("weather-viewer__key--fade-in");
     },
 
-    renderTimeout() {
+    renderError(error) {
+      let errMsg;
+      switch (error) {
+        case 'timeout':
+          errMsg = 'Please enable location services';
+          break;
+        case 'darksky':
+          errMsg = "Server error.  Please try again.";
+          break;
+      }
+
       const temperatureContent = html`
           <p class="weather-viewer__timeout-message">
-            Please enable location services
+            ${errMsg}
           </p>
           <svg class="weather-viewer__reload-btn" viewBox="0 0 489.711 489.711">
             <path

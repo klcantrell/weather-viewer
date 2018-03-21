@@ -29,13 +29,18 @@ export default function Controller() {
           this.view.destroySplash();
           this.view.renderWeatherView(this.model.getWeatherData());
         })
+        .catch(() => {
+          this.view.changeColorScheme(this.view.colors.timeout)
+          this.view.destroySplash();
+          this.view.renderError('darksky');
+        });
     },
 
     ifGeolocationFails(err) {
       this.view.destroySplash();
       this.view.changeColorScheme(this.view.colors.timeout);
       setTimeout(() => {
-        this.view.renderTimeout();
+        this.view.renderError('timeout');
       }, 1400);
     },
 
