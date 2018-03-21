@@ -18,8 +18,8 @@ module.exports = {
     open: true,
     historyApiFallback: true,
     https: {
-      key: fs.readFileSync('key.pem'),
-      cert: fs.readFileSync('cert.pem')
+      key: fs.readFileSync('kals.dev.key'),
+      cert: fs.readFileSync('kals.dev.crt')
     }
 	},
 	module: {
@@ -94,7 +94,11 @@ module.exports = {
     new BrowserSyncPlugin({
       host: 'localhost',
       port: 3000,
-      proxy: 'https://localhost:8080/'
+      proxy: 'https://localhost:8080/',
+      https: {
+        key: 'kals.dev.key',
+        cert: 'kals.dev.crt'
+      }
     },
     {
       // prevent BrowserSync from reloading the page

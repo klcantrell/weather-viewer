@@ -1,3 +1,4 @@
+import 'core-js/es6/promise';
 import '../css/style.css';
 import Model from './model';
 import View from './view';

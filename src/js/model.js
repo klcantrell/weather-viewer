@@ -8,7 +8,6 @@ export default function Model() {
       myLongitude: "",
       degreesFahrenheit: "",
       degreesCelsius: "",
-      value: 0,
       unit: 'F',
       summary: "",
       icon: ""
@@ -37,7 +36,8 @@ export default function Model() {
 
     getWeatherData() {
       return {
-        value: this.data.value,
+        fahrenheit: this.data.degreesFahrenheit,
+        celsius: this.data.degreesCelsius,
         summary: this.data.summary,
         icon: this.data.icon,
         unit: this.data.unit

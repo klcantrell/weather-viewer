@@ -111,7 +111,7 @@ export default function View(controller) {
       $classList_remove(this.unit, 'weather-viewer__unit--hidden');
       // this.unit.classList.remove("weather-viewer__unit--hidden");
       this.summary.innerHTML = data.summary;
-      this.number.innerHTML = data.value;
+      this.number.innerHTML = data.fahrenheit;
       if (data.unit === 'F') {
         unitUseEl.setAttribute('href', '#svg_fahrenheit');
       } else {
@@ -158,8 +158,10 @@ export default function View(controller) {
     toggleUnit(data) {
       if (data.unit === 'F') {
         this.unit.querySelector('use').setAttribute('href', '#svg_fahrenheit');
+        this.number.textContent = data.fahrenheit;
       } else {
         this.unit.querySelector('use').setAttribute('href', '#svg_celsius');
+        this.number.textContent = data.celsius;
       }
     },
 

@@ -5,9 +5,9 @@ export default function Controller() {
       this.model = model;
       this.view = view;
       this.locationOptions = {
-        enableHighAccuracy: true,
+        enableHighAccuracy: false,
         timeout: 5000,
-        maximumAge: 0
+        maximumAge: 50000
       };
       this.view.init();
       this.getCurrentLocation();
@@ -31,7 +31,7 @@ export default function Controller() {
         })
     },
 
-    ifGeolocationFails() {
+    ifGeolocationFails(err) {
       this.view.destroySplash();
       this.view.changeColorScheme(this.view.colors.timeout);
       setTimeout(() => {
@@ -54,7 +54,7 @@ export default function Controller() {
         this.model.data.unit = 'F';
       }
       this.view.toggleUnit(this.model.getWeatherData());
-    }    
+    }
   }
 
 }
