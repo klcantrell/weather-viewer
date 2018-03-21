@@ -98,7 +98,8 @@ module.exports = {
       https: {
         key: 'kals.dev.key',
         cert: 'kals.dev.crt'
-      }
+      },
+      browser: ["chrome", "iexplore"]
     },
     {
       // prevent BrowserSync from reloading the page
