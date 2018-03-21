@@ -1,14 +1,26 @@
 const path = require('path'),
       HtmlWebpackPlugin = require('html-webpack-plugin'),
-      CompressionPlugin = require('compression-webpack-plugin');
+      CompressionPlugin = require('compression-webpack-plugin'),
+      MinifyPlugin = require('babel-minify-webpack-plugin'),
+      BrowserSyncPlugin = require('browser-sync-webpack-plugin'),
+      fs = require('fs');
 
 module.exports = {
+  mode: 'development',
 	entry: {
 		app: path.join(__dirname, 'src/js/index.js')
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
 		filename: "[name].bundle.js"
+	},
+  devServer: {
+    open: true,
+    historyApiFallback: true,
+    https: {
+      key: fs.readFileSync('key.pem'),
+      cert: fs.readFileSync('cert.pem')
+    }
 	},
 	module: {
     rules: [
@@ -35,13 +47,20 @@ module.exports = {
               name: '[name].css'
             }
           },
-          'extract-loader',
+          {
+            loader: 'extract-loader',
+            options: {
+              publicPath: null
+            }
+          },
           {
             loader: 'css-loader',
             options: {
-              minimize: true
+              minimize: true,
+              importLoaders: 1
             }
-          }
+          },
+          'postcss-loader'
         ]
       },
       {
@@ -51,7 +70,7 @@ module.exports = {
           options: {
             name: '[name].[ext]',
             outputPath: 'fonts/',
-            publicPath: 'https://s3.us-east-2.amazonaws.com/kals-weather-viewer/'
+            publicPath: 'https://s3.us-east-2.amazonaws.com/kals-portfolio-assets/fonts'
           }
         }
       }
@@ -60,7 +79,27 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      inject: false
+      minify: {
+        removeAttributeQuotes: true,
+        collapseWhitespace: true,
+        html5: true,
+        minifyCSS: true,
+        removeComments: true,
+        removeEmptyAttributes: true
+      }
+    }),
+    new MinifyPlugin({}, {
+      exclude: /node_modules/
+    }),
+    new BrowserSyncPlugin({
+      host: 'localhost',
+      port: 3000,
+      proxy: 'https://localhost:8080/'
+    },
+    {
+      // prevent BrowserSync from reloading the page
+      // and let Webpack Dev Server take care of this
+      reload: false
     })
     // new CompressionPlugin({
     //   asset: "[path].gz[query]",

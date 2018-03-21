@@ -12,4 +12,19 @@ function html(literals, ...customs) {
   return result;
 }
 
-export { html };
+function $classList_add(el, classToAdd) {
+  let existingClasses = el.getAttribute('class');
+  el.setAttribute('class', `${existingClasses} ${classToAdd}`);
+}
+
+function $classList_remove(el, classToRemove) {
+  let existingClasses = el.getAttribute('class');
+  const newClassList = existingClasses.split(' ')
+                        .filter((el) => {
+                          return el !== classToRemove;
+                        })
+                        .join(' ');
+  el.setAttribute('class', newClassList);
+}
+
+export { html, $classList_add, $classList_remove };

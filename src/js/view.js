@@ -1,4 +1,4 @@
-import { html } from './utils';
+import { html, $classList_add, $classList_remove } from './utils';
 
 export default function View(controller) {
   return {
@@ -69,12 +69,15 @@ export default function View(controller) {
     },
 
     fullSpinAnimation(el) {
-      el.classList.add('full-spin');
+      $classList_add(el, 'full-spin');
+      // el.classList.add('full-spin');
     },
 
     destroySplash() {
-      this.splash.classList.add("weather-viewer__splash--hidden");
-      this.key.classList.add("weather-viewer__key--fade-in");
+      $classList_add(this.splash, 'weather-viewer__splash--hidden');
+      $classList_add(this.key, 'weather-viewer__key--fade-in');
+      // this.splash.classList.add("weather-viewer__splash--hidden");
+      // this.key.classList.add("weather-viewer__key--fade-in");
     },
 
     renderTimeout() {
@@ -105,7 +108,8 @@ export default function View(controller) {
     renderWeatherView(data) {
       const iconUseEl = this.pic.querySelector('use'),
             unitUseEl = this.unit.querySelector('use');
-      this.unit.classList.remove("weather-viewer__unit--hidden");
+      $classList_remove(this.unit, 'weather-viewer__unit--hidden');
+      // this.unit.classList.remove("weather-viewer__unit--hidden");
       this.summary.innerHTML = data.summary;
       this.number.innerHTML = data.value;
       if (data.unit === 'F') {
