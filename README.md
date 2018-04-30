@@ -13,3 +13,6 @@ Tech Highlights:
 
 * Setup an **AWS lambda function** with **Node.js** to act as a proxy server with the **Dark Sky API**
 * Used SVG `defs` and `symbol` elements to load and switch between different weather icons
+
+#### Visit the site!
+#### https://weathergist.surge.sh/
